@@ -6,86 +6,145 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">List of Tasks</h5>
+
+        <div class="card bg-dark border-0 shadow">
+
+            <div class="card-header border-bottom border-secondary">
+                <h5 class="mb-0">
+                    <i class="fas fa-list-check me-2"></i>Tasks Overview
+                </h5>
+                <small class="text-muted">
+                    Manage and organize all your tasks in one place
+                </small>
             </div>
+
             <div class="card-body">
-                <div class="row mb-3">
+
+                <!-- Toolbar -->
+                <div class="row mb-3 align-items-center">
+
+                    <!-- Search -->
                     <div class="col-md-6">
                         <form class="d-flex" action="{% url 'task-list' %}">
-                            <input type="text" placeholder="Search..." class="form-control me-2" name="q" value="{{ request.GET.q }}" />
+                            <input type="text"
+                                   name="q"
+                                   value="{{ request.GET.q }}"
+                                   placeholder="Search tasks..."
+                                   class="form-control me-2" />
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
+
+                    <!-- Sort + Add -->
                     <div class="col-md-6 text-end">
+
                         <form method="get" class="d-inline-flex align-items-center me-2">
-                            <label class="me-2 mb-0">Sort by:</label>
-                            <select class="form-select form-select-sm me-2" name="sort_by" style="width: auto;">
+                            <label class="me-2 mb-0 text-muted">Sort:</label>
+
+                            <select class="form-select form-select-sm me-2"
+                                    name="sort_by"
+                                    style="width:auto;">
                                 <option value="title" {% if request.GET.sort_by == "title" %}selected{% endif %}>Title</option>
-                                <option value="-created_at" {% if request.GET.sort_by == "-created_at" %}selected{% endif %}>Newest First</option>
+                                <option value="-created_at" {% if request.GET.sort_by == "-created_at" %}selected{% endif %}>Newest</option>
                                 <option value="deadline" {% if request.GET.sort_by == "deadline" %}selected{% endif %}>Deadline</option>
                                 <option value="status" {% if request.GET.sort_by == "status" %}selected{% endif %}>Status</option>
                                 <option value="priority__name" {% if request.GET.sort_by == "priority__name" %}selected{% endif %}>Priority</option>
                                 <option value="category__name" {% if request.GET.sort_by == "category__name" %}selected{% endif %}>Category</option>
                             </select>
-                            <button type="submit" class="btn btn-sm btn-primary me-2">Sort</button>
+
+                            <button type="submit" class="btn btn-sm btn-outline-primary">
+                                Sort
+                            </button>
                         </form>
+
                         <a href="{% url 'task-add' %}" class="btn btn-success">
-                            <i class="fas fa-plus"></i> Add Task
+                            <i class="fas fa-plus me-1"></i>Create Task
                         </a>
                     </div>
+
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Priority</th>
-                            <th>Category</th>
-                            <th>Deadline</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for task in object_list %}
-                        <tr>
-                            <td>{{ task.title }}</td>
-                            <td>
-                                {% if task.status == 'Completed' %}
-                                    <span class="badge bg-success">{{ task.status }}</span>
-                                {% elif task.status == 'In Progress' %}
-                                    <span class="badge bg-info">{{ task.status }}</span>
-                                {% else %}
-                                    <span class="badge bg-warning">{{ task.status }}</span>
-                                {% endif %}
-                            </td>
-                            <td>{{ task.priority }}</td>
-                            <td>{{ task.category }}</td>
-                            <td>{{ task.deadline|date:"M d, Y" }}</td>
-                            <td>
-                                <a href="{% url 'task-update' task.id %}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{% url 'task-delete' task.id %}" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center">No tasks found</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Status</th>
+                                <th>Priority</th>
+                                <th>Category</th>
+                                <th>Deadline</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for task in object_list %}
+                            <tr>
+
+                                <td>
+                                    <i class="fas fa-tasks text-info me-2"></i>
+                                    {{ task.title }}
+                                </td>
+
+                                <td>
+                                    {% if task.status == 'Completed' %}
+                                        <span class="badge bg-success">Completed</span>
+                                    {% elif task.status == 'In Progress' %}
+                                        <span class="badge bg-info">In Progress</span>
+                                    {% else %}
+                                        <span class="badge bg-warning">Pending</span>
+                                    {% endif %}
+                                </td>
+
+                                <td>{{ task.priority }}</td>
+
+                                <td>{{ task.category }}</td>
+
+                                <td>{{ task.deadline|date:"M d, Y" }}</td>
+
+                                <td class="text-end">
+                                    <a href="{% url 'task-update' task.id %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+
+                                    <a href="{% url 'task-delete' task.id %}"
+                                       class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="6" class="text-center py-5">
+                                    <i class="fas fa-clipboard-list fa-2x text-muted mb-2"></i>
+                                    <p class="mb-1">No tasks found</p>
+                                    <small class="text-muted">
+                                        Create your first task to start organizing your work
+                                    </small>
+                                    <br>
+                                    <a href="{% url 'task-add' %}" class="btn btn-sm btn-primary mt-2">
+                                        <i class="fas fa-plus me-1"></i>Create Task
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+                </div>
 
                 {% include 'includes/pagination.html' %}
+
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}

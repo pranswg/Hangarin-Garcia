@@ -6,50 +6,85 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">List of Notes</h5>
+        <div class="card bg-dark border-0 shadow">
+
+            <div class="card-header border-bottom border-secondary">
+                <h5 class="mb-0">
+                    <i class="fas fa-sticky-note me-2"></i>Notes Overview
+                </h5>
+                <small class="text-muted">All your task-related notes in one place</small>
             </div>
+
             <div class="card-body">
+
+                <!-- Top Action -->
                 <div class="mb-3 text-end">
                     <a href="{% url 'note-add' %}" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Add Note
+                        <i class="fas fa-plus me-1"></i>Create Note
                     </a>
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Task</th>
-                            <th>Content</th>
-                            <th>Created At</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for note in object_list %}
-                        <tr>
-                            <td>{{ note.task.title }}</td>
-                            <td>{{ note.content|truncatewords:10 }}</td>
-                            <td>{{ note.created_at|date:"M d, Y" }}</td>
-                            <td>
-                                <a href="{% url 'note-update' note.id %}" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                <a href="{% url 'note-delete' note.id %}" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="4" class="text-center">No notes found</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Task</th>
+                                <th>Note Preview</th>
+                                <th>Date Created</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            {% for note in object_list %}
+                            <tr>
+                                <td>
+                                    <i class="fas fa-tasks me-2 text-info"></i>
+                                    {{ note.task.title }}
+                                </td>
+
+                                <td class="text-muted">
+                                    {{ note.content|truncatewords:12 }}
+                                </td>
+
+                                <td>{{ note.created_at|date:"M d, Y" }}</td>
+
+                                <td class="text-end">
+                                    <a href="{% url 'note-update' note.id %}" 
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+
+                                    <a href="{% url 'note-delete' note.id %}" 
+                                       class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4">
+                                    <i class="fas fa-sticky-note fa-2x text-muted mb-2"></i>
+                                    <p class="mb-1">No notes available</p>
+                                    <small class="text-muted">
+                                        Start by creating your first note to track task details
+                                    </small>
+                                    <br>
+                                    <a href="{% url 'note-add' %}" class="btn btn-sm btn-primary mt-2">
+                                        <i class="fas fa-plus me-1"></i>Create Note
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
                 {% include 'includes/pagination.html' %}
+
             </div>
         </div>
     </div>

@@ -6,51 +6,92 @@
 {% block content %}
 <div class="row">
     <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                <h5 class="card-title mb-0">List of Priorities</h5>
+        <div class="card bg-dark border-0 shadow">
+
+            <div class="card-header border-bottom border-secondary">
+                <h5 class="mb-0">
+                    <i class="fas fa-star me-2"></i>Priority Levels
+                </h5>
+                <small class="text-muted">Organize tasks by importance level</small>
             </div>
+
             <div class="card-body">
+
+                <!-- Controls -->
                 <div class="row mb-3">
                     <div class="col-md-6">
                         <form class="d-flex" action="{% url 'priority-list' %}">
-                            <input type="text" placeholder="Search..." class="form-control me-2" name="q" value="{{ request.GET.q }}" />
+                            <input type="text"
+                                   name="q"
+                                   value="{{ request.GET.q }}"
+                                   placeholder="Search priority levels..."
+                                   class="form-control me-2" />
                             <button class="btn btn-primary" type="submit">
                                 <i class="fas fa-search"></i>
                             </button>
                         </form>
                     </div>
-    <div class="col-md-6 text-end">
-        <a href="{% url 'priority-add' %}" class="btn btn-success">
-                        <i class="fas fa-plus"></i> Add Priority
-                    </a>
+
+                    <div class="col-md-6 text-end">
+                        <a href="{% url 'priority-add' %}" class="btn btn-success">
+                            <i class="fas fa-plus me-1"></i>Create Priority Level
+                        </a>
+                    </div>
                 </div>
 
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for priority in object_list %}
-                        <tr>
-                            <td>{{ priority.name }}</td>
-                            <td>
-                                <a href="{% url 'priority-update' priority.id %}" class="btn btn-sm btn-primary">Edit</a>
-                                <a href="{% url 'priority-delete' priority.id %}" class="btn btn-sm btn-danger">Delete</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="2" class="text-center">No priorities found</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                <!-- Table -->
+                <div class="table-responsive">
+                    <table class="table table-dark table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th class="text-end">Actions</th>
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            {% for priority in object_list %}
+                            <tr>
+                                <td>
+                                    <i class="fas fa-star me-2 text-warning"></i>
+                                    {{ priority.name }}
+                                </td>
+
+                                <td class="text-end">
+                                    <a href="{% url 'priority-update' priority.id %}"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-pen"></i>
+                                    </a>
+
+                                    <a href="{% url 'priority-delete' priority.id %}"
+                                       class="btn btn-sm btn-outline-danger">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            {% empty %}
+                            <tr>
+                                <td colspan="2" class="text-center py-4">
+                                    <i class="fas fa-star fa-2x text-muted mb-2"></i>
+                                    <p class="mb-1">No priority levels found</p>
+                                    <small class="text-muted">
+                                        Create priorities like High, Medium, Low to organize tasks better
+                                    </small>
+                                    <br>
+                                    <a href="{% url 'priority-add' %}" class="btn btn-sm btn-primary mt-2">
+                                        <i class="fas fa-plus me-1"></i>Create Priority
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
                 {% include 'includes/pagination.html' %}
+
             </div>
         </div>
     </div>

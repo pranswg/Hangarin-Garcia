@@ -3,20 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Hangarin</title>
+    <title>Login</title>
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Segoe UI', sans-serif;
+            color: #e0f7fa;
         }
+
         .login-card {
             max-width: 400px;
             width: 100%;
+        }
+
+        .card {
+            background: rgba(20, 20, 20, 0.95);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 255, 200, 0.2);
+            box-shadow: 0 0 25px rgba(0, 255, 200, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        h3 {
+            color: #00ffc8;
+        }
+
+        .text-muted {
+            color: #a0dfe0 !important;
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 200, 0.2);
+            color: #e0f7fa;
+        }
+
+        .form-control:focus {
+            border-color: #00ffc8;
+            box-shadow: 0 0 8px rgba(0, 255, 200, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0f7fa;
+        }
+
+        .form-label {
+            color: #00ffc8;
+        }
+
+        .form-check-label {
+            color: #a0dfe0;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00ffc8, #00bfa6);
+            border: none;
+            color: #003333;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #00e6b8, #00a896);
+        }
+
+        .alert-danger {
+            background-color: rgba(255, 77, 109, 0.15);
+            border: 1px solid #ff4d6d;
+            color: #ff9aa2;
+        }
+
+        i {
+            color: #00ffc8;
+        }
+
+        .text-white {
+            color: #a0dfe0 !important;
         }
     </style>
 </head>
@@ -25,7 +92,7 @@
         <div class="card shadow-lg">
             <div class="card-body p-5">
                 <div class="text-center mb-4">
-                    <i class="fas fa-tasks fa-3x text-primary mb-3"></i>
+                    <i class="fas fa-tasks fa-3x mb-3"></i>
                     <h3 class="fw-bold">Hangarin</h3>
                     <p class="text-muted">Task & To-Do Manager</p>
                 </div>
